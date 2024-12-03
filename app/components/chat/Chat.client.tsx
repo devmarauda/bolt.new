@@ -76,7 +76,7 @@ export const ChatImpl = memo(({ initialMessages, storeMessageHistory }: ChatProp
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { clientCanvasRef, serverCanvasRef, wavRecorderRef, wavStreamPlayerRef } = useWaveRenderer();
-  const apiKey = localStorage.getItem('tmp::voice_api_key') || prompt('OpenAI API Key') || '';
+  const apiKey = localStorage.getItem('tmp::voice_api_key') || '';
 
   if (apiKey !== '') {
     localStorage.setItem('tmp::voice_api_key', apiKey);
@@ -147,8 +147,9 @@ export const ChatImpl = memo(({ initialMessages, storeMessageHistory }: ChatProp
           },
         },
         async fn({ prompt }: { prompt: string }) {
-          console.log({ prompt });
-          sendMessage({ unused_event: 'null' }, prompt);
+          if (prompt) {
+            sendMessage({ unused_event: 'null' }, prompt);
+          }
         },
       },
     ],
